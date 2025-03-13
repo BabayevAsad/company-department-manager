@@ -1,0 +1,67 @@
+# Ignore build outputs and compiled files
+bin/
+obj/
+**/bin/
+**/obj/
+[Bb]in/
+[Oo]bj/
+*.dll
+*.exe
+*.pdb
+*.cache
+
+# Ignore Rider, JetBrains, and Visual Studio settings
+.idea/
+.vscode/
+.vs/
+*.suo
+*.user
+*.csproj.user
+*.sln.docstates
+
+# Ignore temporary files
+*.log
+*.tmp
+*.seed
+*.db
+*.sqlite
+*.bak
+*.swp
+*.swo
+
+# Ignore NuGet packages
+*.nupkg
+project.lock.json
+project.assets.json
+project.nuget.cache
+
+# Ignore test result files
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Ignore Entity Framework migrations
+Migrations/
+
+# Ignore deployment secrets and config files
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+# Ignore publish and generated files
+publish/
+*.publishsettings
+*.pfx
+*.key
+*.snk
+
+# Ignore API and build-generated files
+Api/bin/
+Api/obj/
+Application/bin/
+Application/obj/
+Domain/bin/
+Domain/obj/
+Infrastructure/bin/
+Infrastructure/obj/
