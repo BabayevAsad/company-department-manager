@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Company_Expense_Tracker.Repositories.Concret;
-
 namespace Company_Expense_Tracker.Repositories.RegisterRepositories;
 
 public static class InjectRepositories

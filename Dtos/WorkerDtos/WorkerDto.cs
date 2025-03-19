@@ -12,6 +12,6 @@ public class WorkerDto : BaseDto
     public string PhoneNumber { get; set; }
     public string Nationality { get; set; }
     public string FinNumber { get; set; }
-    public Gender GenderId { get; set; }
+    public Gender? GenderId { get; set; }
     public int DepartmentId { get; set; }
 }

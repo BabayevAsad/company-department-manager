@@ -7,10 +7,12 @@ namespace Company_Expense_Tracker.Services.WorkerService;
 public class WorkerService : IWorkerService
 {
     private readonly IWorkerRepository _repository;
+    private readonly IDepartmentRepository _departmentRepository;
 
-    public WorkerService(IWorkerRepository repository)
+    public WorkerService(IWorkerRepository repository, IDepartmentRepository departmentRepository)
     {
         _repository = repository;
+        _departmentRepository = departmentRepository;
     }
 
     public async Task<List<WorkerDto>> GetAllAsync()
@@ -29,7 +31,7 @@ public class WorkerService : IWorkerService
                 PhoneNumber = w.PhoneNumber,
                 Nationality = w.Nationality,
                 FinNumber = w.FinNumber,
-                GenderId = (Gender)GenderHelper.GetById(w.GenderId),
+                GenderId = (Gender)(GenderHelper.GetById(w.GenderId)),
                 DepartmentId = w.DepartmentId
             }).ToList();
 
@@ -60,6 +62,8 @@ public class WorkerService : IWorkerService
 
     public async Task<int> CreateAsync(CreateWorkerDto createDto)
     {
+        var departament = await _departmentRepository.GetByIdAsync(createDto.DepartmentId);
+     
         var worker = new Worker()
         {
             Name = createDto.Name,
@@ -81,6 +85,7 @@ public class WorkerService : IWorkerService
     public async Task UpdateAsync(UpdateWorkerDto updateDto)
     {
         var worker = await _repository.GetByIdAsync(updateDto.Id);
+        var departament = await _departmentRepository.GetByIdAsync(updateDto.DepartmentId);
 
         worker.Name = updateDto.Name;
         worker.Surname = updateDto.Surname;

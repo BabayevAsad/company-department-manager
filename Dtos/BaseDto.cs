@@ -1,5 +1,4 @@
-﻿
-namespace Company_Expense_Tracker.Dtos;
+﻿namespace Company_Expense_Tracker.Dtos;
 
 public class BaseDto
 {   

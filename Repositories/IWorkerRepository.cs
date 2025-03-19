@@ -4,5 +4,4 @@ namespace Company_Expense_Tracker.Repositories;
 
 public interface IWorkerRepository : IBaseRepository<Worker>
 {
-    
 }

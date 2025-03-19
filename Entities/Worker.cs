@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-
-namespace Company_Expense_Tracker.Entities;
+﻿namespace Company_Expense_Tracker.Entities;
 
 public class Worker : BaseEntity
 {

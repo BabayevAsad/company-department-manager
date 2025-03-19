@@ -7,10 +7,12 @@ namespace Company_Expense_Tracker.Services.ExpenseService;
 public class ExpenseService : IExpenseService
 {
     private readonly IExpenseRepository _repository;
+    private readonly IDepartmentRepository _departmentRepository;
 
-    public ExpenseService(IExpenseRepository repository)
+    public ExpenseService(IExpenseRepository repository, IDepartmentRepository departmentRepository)
     {
         _repository = repository;
+        _departmentRepository = departmentRepository;
     }
 
     public async Task<List<ExpenseDto>> GetAllAsync()
@@ -25,7 +27,7 @@ public class ExpenseService : IExpenseService
                 Currency = e.Currency,
                 PaymentMethod = e.PaymentMethod,
                 Catagory = e.Catagory,
-                DepartmentId = e.DepartmentId,
+                DepartmentId = e.DepartmentId ,
                 Description = e.Description
             }).ToList();
         
@@ -35,7 +37,7 @@ public class ExpenseService : IExpenseService
     public async Task<ExpenseDto> GetByIdAsync(int id)
     {
         var expense = await _repository.GetByIdAsync(id);
-
+        
         var dto = new ExpenseDto
         {
             Id = expense.Id,
@@ -52,6 +54,8 @@ public class ExpenseService : IExpenseService
 
     public async Task<int> CreateAsync(CreateExpenseDto createDto)
     {
+        var departament = await _departmentRepository.GetByIdAsync(createDto.DepartmentId);
+        
         var expense = new Expense()
         {
             Amount = createDto.Amount,
@@ -69,6 +73,7 @@ public class ExpenseService : IExpenseService
     public async Task UpdateAsync(UpdateExpenseDto updateDto)
     {
         var expense = await _repository.GetByIdAsync(updateDto.Id);
+        var departament = await _departmentRepository.GetByIdAsync(updateDto.DepartmentId);
 
         expense.Amount = updateDto.Amount;
         expense.Currency = updateDto.Currency;

@@ -3,5 +3,4 @@
 public class DepartmentDto : BaseDto
 {
     public string Name { get; set; }
-    public int DepartmentId { get; set; }
 }

@@ -2,6 +2,6 @@
 
 namespace Company_Expense_Tracker.Services.ExpenseService;
 
-public interface IExpenseService : IBaseService<ExpenseDto,CreateExpenseDto,UpdateExpenseDto>
+public interface IExpenseService : IBaseService<ExpenseDto,ExpenseDto,CreateExpenseDto,UpdateExpenseDto>
 {
 }

@@ -41,6 +41,7 @@ public class DataContext : DbContext
     public DbSet<Department> Departments { get; set; }
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<Worker> Workers { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -70,6 +71,12 @@ public class DataContext : DbContext
         {
             entity.HasKey(e => e.Id);
             entity.ToTable("expenses");
+        });
+        
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.ToTable("users"); 
         });
     }
 }

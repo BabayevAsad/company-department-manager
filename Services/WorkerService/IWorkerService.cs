@@ -2,6 +2,6 @@
 
 namespace Company_Expense_Tracker.Services.WorkerService;
 
-public interface IWorkerService : IBaseService<WorkerDto,CreateWorkerDto,UpdateWorkerDto>
+public interface IWorkerService : IBaseService<WorkerDto,WorkerDto,CreateWorkerDto,UpdateWorkerDto>
 {
 }

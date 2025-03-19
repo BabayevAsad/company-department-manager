@@ -1,4 +1,6 @@
 ﻿using Company_Expense_Tracker.Dtos.DepartmentDtos;
+using Company_Expense_Tracker.Dtos.ExpenseDtos;
+using Company_Expense_Tracker.Dtos.WorkerDtos;
 using Company_Expense_Tracker.Entities;
 using Company_Expense_Tracker.Repositories;
 
@@ -18,25 +20,47 @@ public class DepartmentService : IDepartmentService
         var departments = await _repository.GetAllAsync();
 
         var dto = departments.Where(d => !d.IsDeleted)
-            .Select(d => new DepartmentDto
+            .Select(d => new DepartmentDto()
             {   
                 Id = d.Id,
                 Name = d.Name,
-                DepartmentId = d.DepartmentId
             }).ToList();
 
         return dto;
     }
 
-    public async Task<DepartmentDto> GetByIdAsync(int id)
+    public async Task<DepartmentDetailsDto> GetByIdAsync(int id)
     {
         var department = await _repository.GetByIdAsync(id);
 
-        var dto = new DepartmentDto
+        var dto = new DepartmentDetailsDto()
         {
             Id = department.Id,
             Name = department.Name,
-            DepartmentId = department.DepartmentId
+            Expenses = department.Expenses.Select(e=>new ExpenseDto()
+            {
+                Id = e.Id,
+                Amount = e.Amount,
+                Currency = e.Currency,
+                PaymentMethod = e.PaymentMethod,
+                Catagory = e.Catagory,
+                DepartmentId = e.DepartmentId,
+                Description = e.Description
+            }).ToList(),
+            Workers = department.Workers.Select(w=>new WorkerDto()
+            {
+                Id = w.Id,
+                Name = w.Name,
+                Surname = w.Surname,
+                FatherName = w.FatherName,
+                BirthDate = w.BirthDate,
+                Email = w.Email,
+                PhoneNumber = w.PhoneNumber,
+                Nationality = w.Nationality,
+                FinNumber = w.FinNumber,
+                GenderId = (Gender)GenderHelper.GetById(w.GenderId),
+                DepartmentId = w.DepartmentId
+            }).ToList()
         };
 
         return dto;
@@ -47,7 +71,6 @@ public class DepartmentService : IDepartmentService
         var department = new Department()
         {
             Name = createDto.Name,
-            DepartmentId = createDto.DepartmentId
         };
         
        await _repository.CreateAsync(department);
@@ -57,10 +80,9 @@ public class DepartmentService : IDepartmentService
     public async Task UpdateAsync(UpdateDepartmentDto updateDto)
     {
         var department = await _repository.GetByIdAsync(updateDto.Id);
-
+        
         department.Name = updateDto.Name;
-        department.DepartmentId = updateDto.DepartmentId;
-
+        
         await _repository.UpdateAsync(department);
     }
 

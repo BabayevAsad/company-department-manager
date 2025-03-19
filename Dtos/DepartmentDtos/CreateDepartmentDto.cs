@@ -1,7 +1,5 @@
 ﻿namespace Company_Expense_Tracker.Dtos.DepartmentDtos;
 
-public class CreateDepartmentDto : ActionDto
+public class CreateDepartmentDto : ActionDepartmentDto
 {
-    public string Name { get; set; }
-    public int DepartmentId { get; set; }
 }
