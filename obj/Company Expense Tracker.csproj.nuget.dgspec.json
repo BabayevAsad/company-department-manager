@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Teleqram\\C# learning\\Company Expense Tracker\\Company Expense Tracker\\Company Expense Tracker.csproj": {}
+    "D:\\Teleqram\\C# learning\\Company Department Manager\\Company Expense Tracker\\Company Expense Tracker.csproj": {}
   },
   "projects": {
-    "D:\\Teleqram\\C# learning\\Company Expense Tracker\\Company Expense Tracker\\Company Expense Tracker.csproj": {
+    "D:\\Teleqram\\C# learning\\Company Department Manager\\Company Expense Tracker\\Company Expense Tracker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Teleqram\\C# learning\\Company Expense Tracker\\Company Expense Tracker\\Company Expense Tracker.csproj",
+        "projectUniqueName": "D:\\Teleqram\\C# learning\\Company Department Manager\\Company Expense Tracker\\Company Expense Tracker.csproj",
         "projectName": "Company Expense Tracker",
-        "projectPath": "D:\\Teleqram\\C# learning\\Company Expense Tracker\\Company Expense Tracker\\Company Expense Tracker.csproj",
+        "projectPath": "D:\\Teleqram\\C# learning\\Company Department Manager\\Company Expense Tracker\\Company Expense Tracker.csproj",
         "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
-        "outputPath": "D:\\Teleqram\\C# learning\\Company Expense Tracker\\Company Expense Tracker\\obj\\",
+        "outputPath": "D:\\Teleqram\\C# learning\\Company Department Manager\\Company Expense Tracker\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config"

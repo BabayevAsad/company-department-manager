@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZXsW9TvaYNrjl8jylprMCygbCzjuxa8HCRSWde+xk9N4En0+tLl15/oNZ+45ugF9GOdIHLW0ZpTbZQdsiCsx8Q==",
+  "dgSpecHash": "ye+fgeYLUsqdQONYXznKYu/TAzGAQ554QG3nz8O6/AolOviCyd5U/ub1giapIpGTnstKj1UX1kqYXSc2hm1hHA==",
   "success": true,
-  "projectFilePath": "D:\\Teleqram\\C# learning\\Company Expense Tracker\\Company Expense Tracker\\Company Expense Tracker.csproj",
+  "projectFilePath": "D:\\Teleqram\\C# learning\\Company Department Manager\\Company Department Manager\\Company Department Manager.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hp\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\hp\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",

@@ -4024,11 +4024,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Teleqram\\C# learning\\Company Expense Tracker\\Company Expense Tracker\\Company Expense Tracker.csproj",
-      "projectName": "Company Expense Tracker",
-      "projectPath": "D:\\Teleqram\\C# learning\\Company Expense Tracker\\Company Expense Tracker\\Company Expense Tracker.csproj",
+      "projectUniqueName": "D:\\Teleqram\\C# learning\\Company Department Manager\\Company Department Manager\\Company Department Manager.csproj",
+      "projectName": "Company Department Manager",
+      "projectPath": "D:\\Teleqram\\C# learning\\Company Department Manager\\Company Department Manager\\Company Department Manager.csproj",
       "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
-      "outputPath": "D:\\Teleqram\\C# learning\\Company Expense Tracker\\Company Expense Tracker\\obj\\",
+      "outputPath": "D:\\Teleqram\\C# learning\\Company Department Manager\\Company Department Manager\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config"
