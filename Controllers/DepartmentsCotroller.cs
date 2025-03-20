@@ -1,10 +1,7 @@
-﻿using Company_Expense_Tracker.Application.Caching;
-using Company_Expense_Tracker.Dtos.DepartmentDtos;
-using Company_Expense_Tracker.Entities;
+﻿using Company_Expense_Tracker.Dtos.DepartmentDtos;
 using Company_Expense_Tracker.Services.DepartmentService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
 
 namespace Company_Expense_Tracker.Controllers;
 
@@ -14,16 +11,14 @@ namespace Company_Expense_Tracker.Controllers;
 public class DepartmentsCotroller : Controller
 {
     private readonly IDepartmentService _service;
-    private readonly IDistributedCache _cache;
 
-    public DepartmentsCotroller(IDepartmentService service, IDistributedCache cache)
+    public DepartmentsCotroller(IDepartmentService service)
     {
         _service = service;
-        _cache = cache;
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Department>>> GetAll()
+    public async Task<ActionResult<List<DepartmentDto>>> GetAll()
     {
         var books = await _service.GetAllAsync();
         return Ok(books);
@@ -31,16 +26,9 @@ public class DepartmentsCotroller : Controller
 
     [Authorize(Roles = "Administrator,FinanceManager,DepartmentHead")]
     [HttpGet("{id}")]
-    public async Task<ActionResult<Department>> GetById([FromRoute] int id)
-    {
-        string key = $"department-{id}";
-
-        var department = await _cache.GetOrCreateAsync(key, async token =>
-        {
-            var department = await _service.GetByIdAsync(id);
-            return department;
-        });
-        
+    public async Task<ActionResult<DepartmentDetailsDto>> GetById([FromRoute] int id)
+    { 
+        var department = await _service.GetByIdAsync(id);
         return Ok(department);
     }
 
@@ -56,8 +44,6 @@ public class DepartmentsCotroller : Controller
     [HttpPut("{id}")]
     public async Task<NoContentResult> Update([FromRoute] int id, [FromBody] UpdateDepartmentDto dto)
     {
-        await _cache.RemoveAsync($"department-{id}");
-        
         dto.Id = id;
         await _service.UpdateAsync(dto);
         
@@ -68,9 +54,7 @@ public class DepartmentsCotroller : Controller
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete([FromRoute] int id)
     {
-        await _cache.RemoveAsync($"department-{id}");
         await _service.DeleteAsync(id);
-        
         return NoContent();
     }
 }

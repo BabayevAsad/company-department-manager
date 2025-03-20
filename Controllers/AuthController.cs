@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Company_Expense_Tracker.Controllers;
 
-
 [ApiController]
 [Route("api/[controller]")]
     

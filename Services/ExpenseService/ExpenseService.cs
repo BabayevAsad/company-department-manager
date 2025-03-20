@@ -1,6 +1,8 @@
-﻿using Company_Expense_Tracker.Dtos.ExpenseDtos;
+﻿using Company_Expense_Tracker.Application.Caching;
+using Company_Expense_Tracker.Dtos.ExpenseDtos;
 using Company_Expense_Tracker.Entities;
 using Company_Expense_Tracker.Repositories;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Company_Expense_Tracker.Services.ExpenseService;
 
@@ -8,11 +10,14 @@ public class ExpenseService : IExpenseService
 {
     private readonly IExpenseRepository _repository;
     private readonly IDepartmentRepository _departmentRepository;
+    private readonly IDistributedCache _cache;
 
-    public ExpenseService(IExpenseRepository repository, IDepartmentRepository departmentRepository)
+
+    public ExpenseService(IExpenseRepository repository, IDepartmentRepository departmentRepository, IDistributedCache cache)
     {
         _repository = repository;
         _departmentRepository = departmentRepository;
+        _cache = cache;
     }
 
     public async Task<List<ExpenseDto>> GetAllAsync()
@@ -36,20 +41,26 @@ public class ExpenseService : IExpenseService
 
     public async Task<ExpenseDto> GetByIdAsync(int id)
     {
-        var expense = await _repository.GetByIdAsync(id);
-        
-        var dto = new ExpenseDto
-        {
-            Id = expense.Id,
-            Amount = expense.Amount,
-            Currency = expense.Currency,
-            PaymentMethod = expense.PaymentMethod,
-            Catagory = expense.Catagory,
-            DepartmentId = expense.DepartmentId,
-            Description = expense.Description
-        };
+        string key = $"{nameof(Expense)}-{id}";
 
-        return dto;
+        var expense = await _cache.GetOrCreateAsync(key, async token =>
+        {
+            var expense = await _repository.GetByIdAsync(id);
+            var dto = new ExpenseDto
+            {
+                Id = expense.Id,
+                Amount = expense.Amount,
+                Currency = expense.Currency,
+                PaymentMethod = expense.PaymentMethod,
+                Catagory = expense.Catagory,
+                DepartmentId = expense.DepartmentId,
+                Description = expense.Description
+            };
+
+            return dto;
+        });
+
+        return expense;
     }
 
     public async Task<int> CreateAsync(CreateExpenseDto createDto)
@@ -72,6 +83,8 @@ public class ExpenseService : IExpenseService
 
     public async Task UpdateAsync(UpdateExpenseDto updateDto)
     {
+        await _cache.RemoveAsync($"{nameof(Expense)}-{updateDto.Id}");
+        
         var expense = await _repository.GetByIdAsync(updateDto.Id);
         var departament = await _departmentRepository.GetByIdAsync(updateDto.DepartmentId);
 
@@ -87,6 +100,8 @@ public class ExpenseService : IExpenseService
 
     public async Task DeleteAsync(int id)
     {
+        await _cache.RemoveAsync($"{nameof(Expense)}-{id}");
+        
         var expense = await _repository.GetByIdAsync(id);
         await _repository.DeleteAsync(expense);
     }

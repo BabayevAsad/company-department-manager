@@ -1,6 +1,8 @@
-﻿using Company_Expense_Tracker.Dtos.WorkerDtos;
+﻿using Company_Expense_Tracker.Application.Caching;
+using Company_Expense_Tracker.Dtos.WorkerDtos;
 using Company_Expense_Tracker.Entities;
 using Company_Expense_Tracker.Repositories;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Company_Expense_Tracker.Services.WorkerService;
 
@@ -8,11 +10,14 @@ public class WorkerService : IWorkerService
 {
     private readonly IWorkerRepository _repository;
     private readonly IDepartmentRepository _departmentRepository;
+    private readonly IDistributedCache _cache;
 
-    public WorkerService(IWorkerRepository repository, IDepartmentRepository departmentRepository)
+
+    public WorkerService(IWorkerRepository repository, IDepartmentRepository departmentRepository, IDistributedCache cache)
     {
         _repository = repository;
         _departmentRepository = departmentRepository;
+        _cache = cache;
     }
 
     public async Task<List<WorkerDto>> GetAllAsync()
@@ -40,24 +45,31 @@ public class WorkerService : IWorkerService
 
     public async Task<WorkerDto> GetByIdAsync(int id)
     {
-        var worker = await _repository.GetByIdAsync(id);
+        string key = $"{nameof(Worker)}-{id}";
 
-        var dto = new WorkerDto
+        var worker = await _cache.GetOrCreateAsync(key, async token =>
         {
-            Id = worker.Id,
-            Name = worker.Name,
-            Surname = worker.Surname,
-            FatherName = worker.FatherName,
-            BirthDate = worker.BirthDate,
-            Email = worker.Email,
-            PhoneNumber = worker.PhoneNumber,
-            Nationality = worker.Nationality,
-            FinNumber = worker.FinNumber,
-            GenderId = (Gender)worker.GenderId,
-            DepartmentId = worker.DepartmentId
-        };
+            var worker = await _repository.GetByIdAsync(id);
 
-        return dto;
+            var dto = new WorkerDto
+            {
+                Id = worker.Id,
+                Name = worker.Name,
+                Surname = worker.Surname,
+                FatherName = worker.FatherName,
+                BirthDate = worker.BirthDate,
+                Email = worker.Email,
+                PhoneNumber = worker.PhoneNumber,
+                Nationality = worker.Nationality,
+                FinNumber = worker.FinNumber,
+                GenderId = (Gender)worker.GenderId,
+                DepartmentId = worker.DepartmentId
+            };
+
+            return dto;
+        });
+        
+        return worker;
     }
 
     public async Task<int> CreateAsync(CreateWorkerDto createDto)
@@ -84,6 +96,8 @@ public class WorkerService : IWorkerService
 
     public async Task UpdateAsync(UpdateWorkerDto updateDto)
     {
+        await _cache.RemoveAsync($"{nameof(Worker)}-{updateDto.Id}");
+        
         var worker = await _repository.GetByIdAsync(updateDto.Id);
         var departament = await _departmentRepository.GetByIdAsync(updateDto.DepartmentId);
 
@@ -103,6 +117,8 @@ public class WorkerService : IWorkerService
 
     public async Task DeleteAsync(int id)
     {
+        await _cache.RemoveAsync($"{nameof(Worker)}-{id}");
+        
         var worker = await _repository.GetByIdAsync(id);
         await _repository.DeleteAsync(worker);
     }
